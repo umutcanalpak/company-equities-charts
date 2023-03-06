@@ -6,6 +6,10 @@ import { QuicklinkModule, QuicklinkStrategy } from 'ngx-quicklink';
 
 const routes: VexRoutes = [
   {
+    path: 'test-case',
+    loadChildren: () => import('./pages/dashboards/dashboard-analytics/dashboard-analytics.module').then(m => m.DashboardAnalyticsModule),
+  },
+  {
     path: 'login',
     loadChildren: () => import('./pages/pages/auth/login/login.module').then(m => m.LoginModule),
   },
