@@ -29,7 +29,7 @@ export class TestCaseComponent {
     {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
   ];
 
-  displayedColumns: string[] =  ['name', 'position', 'weight', 'symbol', 'position', 'weight', 'symbol', 'star'];
+  displayedColumns: string[] =  ['name', 'position', 'weight', 'symbol', 'position', 'weight', 'symbol', 'weight', 'symbol', 'weight', 'symbol', 'weight', 'symbol', 'weight', 'symbol', 'weight', 'symbol', 'weight', 'symbol'];
 
   
 
