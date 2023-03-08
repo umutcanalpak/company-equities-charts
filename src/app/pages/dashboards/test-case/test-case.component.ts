@@ -6,6 +6,7 @@ import {
 } from "../../../../static-data/table-sales-data";
 import { TableColumn } from "../../../../@vex/interfaces/table-column.interface";
 import { FormControl, FormGroup } from "@angular/forms";
+import { TestCaseService } from "./test-case.service";
 
 @Component({
   selector: "app-test-case",
@@ -13,25 +14,67 @@ import { FormControl, FormGroup } from "@angular/forms";
   styleUrls: ["./test-case.component.scss"],
 })
 export class TestCaseComponent {
-  stocks = new FormControl("");
+  stocks = new FormControl(["IBM"]);
   stockList: string[] = ["IBM", "AAPL", "MSFT", "AMZN", "GOOG"];
 
-  dataSource =  [
-    {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
-    {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
-    {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},
-    {position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be'},
-    {position: 5, name: 'Boron', weight: 10.811, symbol: 'B'},
-    {position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C'},
-    {position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N'},
-    {position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-    {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
-    {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
+  dataSource = [
+    { position: 1, name: "Hydrogen", weight: 1.0079, symbol: "H" },
+    { position: 2, name: "Helium", weight: 4.0026, symbol: "He" },
+    { position: 3, name: "Lithium", weight: 6.941, symbol: "Li" },
+    { position: 4, name: "Beryllium", weight: 9.0122, symbol: "Be" },
+    { position: 5, name: "Boron", weight: 10.811, symbol: "B" },
+    { position: 6, name: "Carbon", weight: 12.0107, symbol: "C" },
+    { position: 7, name: "Nitrogen", weight: 14.0067, symbol: "N" },
+    { position: 8, name: "Oxygen", weight: 15.9994, symbol: "O" },
+    { position: 9, name: "Fluorine", weight: 18.9984, symbol: "F" },
+    { position: 10, name: "Neon", weight: 20.1797, symbol: "Ne" },
   ];
 
-  displayedColumns: string[] =  ['name', 'position', 'weight', 'symbol', 'position', 'weight', 'symbol', 'weight', 'symbol', 'weight', 'symbol', 'weight', 'symbol', 'weight', 'symbol', 'weight', 'symbol', 'weight', 'symbol'];
+  displayedColumns: string[] = [
+    "name",
+    "position",
+    "weight",
+    "symbol",
+    "position",
+    "weight",
+    "symbol",
+    "weight",
+    "symbol",
+    "weight",
+    "symbol",
+    "weight",
+    "symbol",
+    "weight",
+    "symbol",
+    "weight",
+    "symbol",
+    "weight",
+    "symbol",
+  ];
 
-  
+  readonly NOW = new Date();
+  readonly TWO_MONTHS_AGO = new Date(
+    new Date().setMonth(this.NOW.getMonth() - 2)
+  );
+
+  constructor(private testCaseService: TestCaseService) {
+    setTimeout(() => {
+      this.filter();
+    }, 3000);
+  }
+
+  filter() {
+    this.testCaseService.getEquityData().subscribe((data) => {
+      console.log(data);
+      this.formatData(data);
+    });
+  }
+
+  formatData(data: any) {
+    const series = data["Time Series (Daily)"];
+
+    console.log(series);
+  }
 
   range = new FormGroup({
     start: new FormControl<Date | null>(null),
