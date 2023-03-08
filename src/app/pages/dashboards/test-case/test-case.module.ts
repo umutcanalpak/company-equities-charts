@@ -18,6 +18,17 @@ import { SecondaryToolbarModule } from '../../../../@vex/components/secondary-to
 import { BreadcrumbsModule } from '../../../../@vex/components/breadcrumbs/breadcrumbs.module';
 import { MatButtonModule } from '@angular/material/button';
 import { PageLayoutModule } from '../../../../@vex/components/page-layout/page-layout.module';
+import { MatSelectModule } from '@angular/material/select';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatInputModule } from '@angular/material/input';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatSliderModule } from '@angular/material/slider';
+import { MatTableModule } from '@angular/material/table';
 
 @NgModule({
   declarations: [TestCaseComponent],
@@ -36,7 +47,29 @@ import { PageLayoutModule } from '../../../../@vex/components/page-layout/page-l
     SecondaryToolbarModule,
     BreadcrumbsModule,
     MatButtonModule,
-    PageLayoutModule
+    PageLayoutModule,
+    MatSelectModule,
+    FormsModule,
+    MatInputModule,
+    ReactiveFormsModule,
+    MatNativeDateModule,
+    MatDatepickerModule,
+    MatInputModule,
+    MatIconModule,
+    MatButtonModule,
+
+    MatSelectModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    ReactiveFormsModule,
+    MatAutocompleteModule,
+    MatSliderModule,
+    MatCheckboxModule,
+    MatRadioModule,
+    MatSlideToggleModule,
+    SecondaryToolbarModule,
+    BreadcrumbsModule,
+    MatTableModule
   ]
 })
 export class TestCaseModule {
