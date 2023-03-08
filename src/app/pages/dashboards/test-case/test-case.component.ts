@@ -30,27 +30,7 @@ export class TestCaseComponent {
     { position: 10, name: "Neon", weight: 20.1797, symbol: "Ne" },
   ];
 
-  displayedColumns: string[] = [
-    "name",
-    "position",
-    "weight",
-    "symbol",
-    "position",
-    "weight",
-    "symbol",
-    "weight",
-    "symbol",
-    "weight",
-    "symbol",
-    "weight",
-    "symbol",
-    "weight",
-    "symbol",
-    "weight",
-    "symbol",
-    "weight",
-    "symbol",
-  ];
+  displayedColumns: string[] = ["name"];
 
   readonly NOW = new Date();
   readonly TWO_MONTHS_AGO = new Date(
@@ -65,14 +45,31 @@ export class TestCaseComponent {
 
   filter() {
     this.testCaseService.getEquityData().subscribe((data) => {
-      console.log(data);
       this.formatData(data);
     });
   }
 
-  formatData(data: any) {
-    const series = data["Time Series (Daily)"];
+  formatData(dataToFormat: any) {
+    const series = dataToFormat["Time Series (Daily)"];
 
+    const columns = ["name"];
+    const data = {
+      name: "AASD",
+    };
+
+    for (const key in series) {
+      columns.push(key);
+      data[key] = series[key]["4. close"];
+    }
+
+    const dataSource: any = [data];
+
+    // this.displayedColumns = ["name", "position"];
+
+    this.displayedColumns = columns;
+    this.dataSource = dataSource;
+
+    console.log(this.dataSource);
     console.log(series);
   }
 
