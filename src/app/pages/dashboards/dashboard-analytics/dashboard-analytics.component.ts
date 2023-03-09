@@ -103,7 +103,7 @@ export class DashboardAnalyticsComponent {
     }
 
     this.chartSeries = data;
-    this.dashboardAnalyticsService.obs.next(labels);
+    this.dashboardAnalyticsService.labelChange.next(labels);
   }
 
   formatTableData(res: any, timeArray: number[]) {

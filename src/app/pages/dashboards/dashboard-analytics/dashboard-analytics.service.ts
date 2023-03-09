@@ -6,7 +6,7 @@ import { Subject } from "rxjs";
   providedIn: "root",
 })
 export class DashboardAnalyticsService {
-  obs = new Subject();
+  labelChange = new Subject();
 
   constructor(private http: HttpClient) {}
   

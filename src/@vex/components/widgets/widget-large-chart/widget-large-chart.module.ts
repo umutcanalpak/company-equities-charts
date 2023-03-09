@@ -12,7 +12,6 @@ import { ChartModule } from '../../chart/chart.module';
     CommonModule,
     MatIconModule,
     MatButtonModule,
-
     ChartModule
   ],
   exports: [WidgetLargeChartComponent]

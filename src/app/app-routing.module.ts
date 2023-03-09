@@ -38,13 +38,6 @@ const routes: VexRoutes = [
     component: CustomLayoutComponent,
     children: [
       {
-        path: "test-case",
-        loadChildren: () =>
-          import("./pages/dashboards/test-case/test-case.module").then(
-            (m) => m.TestCaseModule
-          ),
-      },
-      {
         path: "dashboards/analytics",
         redirectTo: "/",
         pathMatch: "full",

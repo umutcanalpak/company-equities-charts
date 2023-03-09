@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { ApexOptions } from "../../chart/chart.component";
 import { defaultChartOptions } from "../../../utils/default-chart-options";
-import { TestCaseService } from "src/app/pages/dashboards/test-case/test-case.service";
+import { DashboardAnalyticsService } from "src/app/pages/dashboards/dashboard-analytics/dashboard-analytics.service";
 
 @Component({
   selector: "vex-widget-large-chart",
@@ -13,13 +13,13 @@ export class WidgetLargeChartComponent implements OnInit {
   @Input() series: ApexNonAxisChartSeries | ApexAxisChartSeries = []
   @Input() options: ApexOptions = defaultChartOptions(this.optionsParam);
 
-  constructor(private testCaseService: TestCaseService) {}
+  constructor(private dashboardAnalyticsService: DashboardAnalyticsService) {}
 
   ngOnInit() {
-    this.testCaseService.obs.subscribe((res: any) => {
+    this.dashboardAnalyticsService.labelChange.subscribe((labels: number[]) => {
       const param: any = this.defaultOptionsParam();
 
-      param.labels = res;
+      param.labels = labels;
 
       this.options = param;
     });

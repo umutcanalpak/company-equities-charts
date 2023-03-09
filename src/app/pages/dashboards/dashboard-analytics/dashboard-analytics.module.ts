@@ -30,13 +30,12 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatTableModule } from '@angular/material/table';
-import { TestCaseRoutingModule } from '../test-case/test-case-routing.module';
 
 @NgModule({
   declarations: [DashboardAnalyticsComponent],
   imports: [
     CommonModule,
-    TestCaseRoutingModule,
+    DashboardAnalyticsRoutingModule,
     ChartModule,
     MatIconModule,
     WidgetQuickLineChartModule,
@@ -52,25 +51,16 @@ import { TestCaseRoutingModule } from '../test-case/test-case-routing.module';
     PageLayoutModule,
     MatSelectModule,
     FormsModule,
-    MatInputModule,
     ReactiveFormsModule,
     MatNativeDateModule,
     MatDatepickerModule,
     MatInputModule,
     MatIconModule,
-    MatButtonModule,
-
-    MatSelectModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    ReactiveFormsModule,
     MatAutocompleteModule,
     MatSliderModule,
     MatCheckboxModule,
     MatRadioModule,
     MatSlideToggleModule,
-    SecondaryToolbarModule,
-    BreadcrumbsModule,
     MatTableModule,
     MatProgressSpinnerModule
   ]
