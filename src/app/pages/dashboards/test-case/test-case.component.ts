@@ -47,27 +47,22 @@ export class TestCaseComponent {
 
   filter() {
     this.testCaseService.getEquityData().subscribe((data) => {
-
       const { start, end } = this.range.value;
 
-    let startMoment = moment(start);
-    const endMoment = moment(end);
+      let startMoment = moment(start);
+      const endMoment = moment(end);
 
-    const days = [];
-    while (startMoment <= endMoment) {
-      days.push(startMoment.format("YYYY-MM-DD"));
-      startMoment.add(1, "days");
-    }
+      const days = [];
+      while (startMoment <= endMoment) {
+        days.push(startMoment.format("YYYY-MM-DD"));
+        startMoment.add(1, "days");
+      }
 
-    this.testCaseService.obs.next([]);
+      this.testCaseService.obs.next([]);
 
-    this.formatData(data);
+      this.formatData(data);
     });
-
-    
-
   }
-
 
   createDateArray(length: number) {
     const dates: number[] = [];
