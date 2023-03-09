@@ -1,59 +1,76 @@
-<vex-secondary-toolbar current="Dashboard">
-  <vex-breadcrumbs [crumbs]="['Dashboards', 'Analytics']" class="flex-auto"></vex-breadcrumbs>
+<div
+  class="container p-gutter grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4"
+>
+  <div class="sm:col-span-1">
+    <mat-form-field appearance="fill">
+      <mat-label>Hisse</mat-label>
+      <mat-select [formControl]="selectedCompanies" multiple>
+        <mat-option *ngFor="let company of companyList" [value]="company">
+          {{ company }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
 
-  <button class="ml-2" color="primary" mat-icon-button type="button">
-    <mat-icon svgIcon="mat:more_vert"></mat-icon>
-  </button>
-</vex-secondary-toolbar>
+  <div class="sm:col-span-1">
+    <mat-form-field>
+      <mat-label>Tarih</mat-label>
+      <mat-date-range-input
+        [formGroup]="range"
+        [rangePicker]="picker"
+        [min]="TWO_MONTHS_AGO"
+        [max]="NOW"
+      >
+        <input matStartDate formControlName="start" placeholder="Start date" />
+        <input matEndDate formControlName="end" placeholder="End date" />
+      </mat-date-range-input>
+      <mat-datepicker-toggle [for]="picker" matSuffix></mat-datepicker-toggle>
+      <mat-date-range-picker #picker></mat-date-range-picker>
+      <mat-hint>Tarih seçiniz</mat-hint>
+    </mat-form-field>
+  </div>
 
-<div class="container p-gutter grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-  <vex-widget-assistant class="sm:col-span-2"></vex-widget-assistant>
+  <div class="sm:col-span-2">
+    <div class="flex items-center justify-end gap-2">
+      <button
+        color="primary"
+        mat-raised-button
+        type="button"
+        [disabled]="isFilterButtonDisabled()"
+        (click)="filter()"
+      >
+        Göster
+        <mat-icon *ngIf="loading">
+          <mat-spinner color="accent" diameter="20"> </mat-spinner
+        ></mat-icon>
+      </button>
+    </div>
+  </div>
 
-  <vex-widget-quick-line-chart icon="mat:pageview"
-                               [series]="pageViewsSeries"
-                               iconClass="text-primary bg-primary/10"
-                               label="Page Views"
-                               value="92.4k"></vex-widget-quick-line-chart>
+  <vex-widget-large-chart
+    [series]="chartSeries"
+    class="sm:col-span-4"
+  ></vex-widget-large-chart>
 
-  <vex-widget-quick-line-chart icon="mat:group"
-                               [options]="uniqueUsersOptions"
-                               [series]="uniqueUsersSeries"
-                               iconClass="text-orange bg-orange-light"
-                               label="Unique Users"
-                               value="67.2k"></vex-widget-quick-line-chart>
+  <div class="sm:col-span-4">
+    <h2 class="text-center">Hisse Senedi Değerleri ve Tarihleri</h2>
+    <div class="example-container mat-elevation-z8">
+      <table mat-table [dataSource]="dataSource">
+        <ng-container matColumnDef="company" sticky>
+          <th mat-header-cell *matHeaderCellDef>Company</th>
+          <td mat-cell *matCellDef="let element">{{ element.company }}</td>
+        </ng-container>
 
-  <vex-widget-large-chart [series]="userSessionsSeries"
-                          class="sm:col-span-2"></vex-widget-large-chart>
+        <ng-container *ngFor="let item of displayedDateColumns">
+          <ng-container [matColumnDef]="item">
+            <th mat-header-cell *matHeaderCellDef>{{ item }}</th>
+            <td mat-cell *matCellDef="let element">{{ element[item] }}</td>
+          </ng-container>
+        </ng-container>
 
-  <vex-widget-table [columns]="tableColumns"
-                    [data]="tableData"
-                    class="sm:col-span-2"></vex-widget-table>
-
-  <vex-widget-quick-value-center [change]="124.4"
-                                 icon="mat:group"
-                                 iconClass="text-primary bg-primary/10"
-                                 label="Users"
-                                 value="67.4k"></vex-widget-quick-value-center>
-  <vex-widget-quick-value-center [change]="-23.7"
-                                 icon="mat:pageview"
-                                 iconClass="text-orange bg-orange-light"
-                                 helpText="Additional information"
-                                 label="Sessions"
-                                 value="96.2k"></vex-widget-quick-value-center>
-  <vex-widget-quick-value-center [change]="23.2"
-                                 icon="mat:cloud_off"
-                                 iconClass="text-deep-orange bg-deep-orange-light"
-                                 helpText="Explain something"
-                                 label="Bounce Rate"
-                                 value="6.92%"></vex-widget-quick-value-center>
-  <vex-widget-quick-value-center [change]="34.5"
-                                 icon="mat:timer"
-                                 iconClass="text-teal bg-teal-light"
-                                 label="Session Duration"
-                                 value="16m 48s"></vex-widget-quick-value-center>
-
-  <vex-widget-large-goal-chart [series]="salesSeries"
-                               class="sm:col-span-full"
-                               total="4,374"></vex-widget-large-goal-chart>
-
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+    </div>
+  </div>
 </div>

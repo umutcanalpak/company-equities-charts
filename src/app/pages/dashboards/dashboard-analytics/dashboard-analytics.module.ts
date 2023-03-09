@@ -18,26 +18,61 @@ import { SecondaryToolbarModule } from '../../../../@vex/components/secondary-to
 import { BreadcrumbsModule } from '../../../../@vex/components/breadcrumbs/breadcrumbs.module';
 import { MatButtonModule } from '@angular/material/button';
 import { PageLayoutModule } from '../../../../@vex/components/page-layout/page-layout.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatInputModule } from '@angular/material/input';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatSliderModule } from '@angular/material/slider';
+import { MatTableModule } from '@angular/material/table';
+import { TestCaseRoutingModule } from '../test-case/test-case-routing.module';
 
 @NgModule({
   declarations: [DashboardAnalyticsComponent],
   imports: [
     CommonModule,
-    DashboardAnalyticsRoutingModule,
+    TestCaseRoutingModule,
     ChartModule,
     MatIconModule,
     WidgetQuickLineChartModule,
     WidgetQuickValueCenterModule,
     WidgetQuickValueStartModule,
     WidgetLargeGoalChartModule,
-
     WidgetAssistantModule,
     WidgetLargeChartModule,
     WidgetTableModule,
     SecondaryToolbarModule,
     BreadcrumbsModule,
     MatButtonModule,
-    PageLayoutModule
+    PageLayoutModule,
+    MatSelectModule,
+    FormsModule,
+    MatInputModule,
+    ReactiveFormsModule,
+    MatNativeDateModule,
+    MatDatepickerModule,
+    MatInputModule,
+    MatIconModule,
+    MatButtonModule,
+
+    MatSelectModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    ReactiveFormsModule,
+    MatAutocompleteModule,
+    MatSliderModule,
+    MatCheckboxModule,
+    MatRadioModule,
+    MatSlideToggleModule,
+    SecondaryToolbarModule,
+    BreadcrumbsModule,
+    MatTableModule,
+    MatProgressSpinnerModule
   ]
 })
 export class DashboardAnalyticsModule {
