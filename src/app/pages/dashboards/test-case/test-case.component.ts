@@ -24,8 +24,8 @@ export class TestCaseComponent {
     end: new FormControl<Date | null>(null),
   });
   dataSource = [];
-  displayedColumns: string[] = [];
   displayedDateColumns: string[] = [];
+  displayedColumns: string[] = [];
 
   readonly NOW = new Date();
   readonly TWO_MONTHS_AGO = new Date(
@@ -39,45 +39,23 @@ export class TestCaseComponent {
   }
 
   filter() {
-    // this.testCaseService.getEquityData().subscribe((data) => {
+    const forkJoinParam = {};
+    for (const company of this.selectedCompanies.value) {
+      forkJoinParam[company] =
+        this.testCaseService.getEquityDataByCompany(company);
+    }
+
+    forkJoin(forkJoinParam).subscribe((res) => {
+      this.formatTableData(res);
+    });
+
+    // this.testCaseService.getEquityDataByCompany("").subscribe((data) => {
     //   const labels = this.createChartLabels(data);
 
     //   this.testCaseService.obs.next(labels);
 
     //   this.formatTableData(data);
     // });
-
-    // const observable = forkJoin({
-    //   foo: of(1, 2, 3, 4),
-    //   bar: Promise.resolve(8),
-    //   baz: timer(4000)
-    // });
-
-    // observable.subscribe({
-    //  next: value => console.log(value),
-    //  complete: () => console.log('This is how it ends!'),
-    // });
-
-    const forkJoinParam = {};
-
-    for (const company of this.selectedCompanies.value) {
-      forkJoinParam[company] = this.testCaseService.getEquityDataByCompany(company);
-    }
-
-    forkJoin(forkJoinParam).subscribe(res => {
-      console.log(3333333);
-      console.log(res);
-      console.log(3333333);
-    });
-
-
-    this.testCaseService.getEquityDataByCompany("").subscribe((data) => {
-      const labels = this.createChartLabels(data);
-
-      this.testCaseService.obs.next(labels);
-
-      this.formatTableData(data);
-    });
   }
 
   createChartLabels(data: any) {
@@ -112,56 +90,68 @@ export class TestCaseComponent {
     },
   ];
 
-  createDateArray(length: number) {
-    const dates: number[] = [];
-
-    for (let i = 0; i < length; i++) {
-      dates.push(+DateTime.local().minus({ day: i }).toJSDate());
-    }
-
-    return dates.reverse();
-  }
-
-  // Logs:
-  // { foo: 4, bar: 8, baz: 0 } after 4 seconds
-  // 'This is how it ends!' immediately after
-
-  formatTableData(dataToFormat: any) {
-    const series = dataToFormat["Time Series (Daily)"];
+  formatTableData(res: any) {
     console.log(1111111);
-    console.log(series);
+    console.log(res);
     console.log(1111111);
 
-    const displayedColumns = ["company"];
+    let displayedColumnsChange = true;
+    const displayedColumns = [];
+    const dataSource = [];
 
-    const company = this.selectedCompanies.value[0];
+    for (const parentKey in res) {
+      if (Object.prototype.hasOwnProperty.call(res, parentKey)) {
+        const element = res[parentKey];
+        const row = { company: parentKey };
+        const series = element["Time Series (Daily)"];
 
-    console.log(2222222);
-    console.log(company);
-    console.log(2222222);
+        for (const key in series) {
+          row[key] = series[key]["4. close"];
 
-    const data = { company };
+          if (displayedColumnsChange) {
+            displayedColumns.unshift(key);
+          }
+        }
 
-    for (const key in series) {
-      displayedColumns.push(key);
-      data[key] = series[key]["4. close"];
+        displayedColumnsChange = false;
+
+        dataSource.push(row);
+      }
     }
 
-    const dataSource: any = [data];
-
-    this.displayedColumns = displayedColumns;
-    this.displayedDateColumns = displayedColumns.slice(1);
+    this.displayedDateColumns = [...displayedColumns];
+    this.displayedColumns = ["company", ...this.displayedDateColumns];
     this.dataSource = dataSource;
-  }
 
-  userSessionsSeries: ApexAxisChartSeries = [
-    {
-      name: "Users",
-      data: [10, 50, 26, 50, 38, 60, 50, 25, 61, 80, 40, 60],
-    },
-    {
-      name: "Sessions",
-      data: [5, 21, 42, 70, 41, 20, 35, 50, 10, 15, 30, 50],
-    },
-  ];
+    console.log(22222222222222222);
+    console.log(this.displayedColumns);
+    console.log(22222222222222222);
+
+    console.log(333333333333333);
+    console.log(this.dataSource);
+    console.log(333333333333333);
+
+    // const series = res["Time Series (Daily)"];
+
+    // const displayedColumns = ["company"];
+
+    // const company = this.selectedCompanies.value[0];
+
+    // console.log(2222222);
+    // console.log(company);
+    // console.log(2222222);
+
+    // const data = { company };
+
+    // for (const key in series) {
+    //   displayedColumns.push(key);
+    //   data[key] = series[key]["4. close"];
+    // }
+
+    // const dataSource: any = [data];
+
+    // this.displayedColumns = displayedColumns;
+    // this.displayedDateColumns = displayedColumns.slice(1);
+    // this.dataSource = dataSource;
+  }
 }
