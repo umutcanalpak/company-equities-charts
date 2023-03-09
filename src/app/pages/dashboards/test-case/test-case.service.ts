@@ -10,10 +10,14 @@ export class TestCaseService {
 
   constructor(private http: HttpClient) {}
 
-  url =
-    "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=IBM&apikey=A0EPWRBZXYCD52ZY";
+  // url =
+  //   "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=IBM&apikey=A0EPWRBZXYCD52ZY";
 
-  getEquityData() {
-    return this.http.get(this.url);
+  // getEquityData() {
+  //   return this.http.get(this.url);
+  // }
+  
+  getEquityDataByCompany(company:string) {
+    return this.http.get(`https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=${company}&apikey=A0EPWRBZXYCD52ZY<`);
   }
 }

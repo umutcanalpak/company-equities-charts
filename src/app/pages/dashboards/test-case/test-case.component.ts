@@ -9,6 +9,7 @@ import { FormControl, FormGroup } from "@angular/forms";
 import { TestCaseService } from "./test-case.service";
 import { DateTime } from "luxon";
 import moment from "moment";
+import { forkJoin } from "rxjs";
 
 @Component({
   selector: "app-test-case",
@@ -17,12 +18,12 @@ import moment from "moment";
 })
 export class TestCaseComponent {
   companyList: string[] = ["IBM", "AAPL", "MSFT", "AMZN", "GOOG"];
-  selectedCompanies = new FormControl(["IBM"]);
+  selectedCompanies = new FormControl(["IBM", "AAPL"]);
   range = new FormGroup({
     start: new FormControl<Date | null>(null),
     end: new FormControl<Date | null>(null),
   });
-  dataSource = [  ];
+  dataSource = [];
   displayedColumns: string[] = [];
   displayedDateColumns: string[] = [];
 
@@ -38,7 +39,39 @@ export class TestCaseComponent {
   }
 
   filter() {
-    this.testCaseService.getEquityData().subscribe((data) => {
+    // this.testCaseService.getEquityData().subscribe((data) => {
+    //   const labels = this.createChartLabels(data);
+
+    //   this.testCaseService.obs.next(labels);
+
+    //   this.formatTableData(data);
+    // });
+
+    // const observable = forkJoin({
+    //   foo: of(1, 2, 3, 4),
+    //   bar: Promise.resolve(8),
+    //   baz: timer(4000)
+    // });
+
+    // observable.subscribe({
+    //  next: value => console.log(value),
+    //  complete: () => console.log('This is how it ends!'),
+    // });
+
+    const forkJoinParam = {};
+
+    for (const company of this.selectedCompanies.value) {
+      forkJoinParam[company] = this.testCaseService.getEquityDataByCompany(company);
+    }
+
+    forkJoin(forkJoinParam).subscribe(res => {
+      console.log(3333333);
+      console.log(res);
+      console.log(3333333);
+    });
+
+
+    this.testCaseService.getEquityDataByCompany("").subscribe((data) => {
       const labels = this.createChartLabels(data);
 
       this.testCaseService.obs.next(labels);
@@ -66,7 +99,6 @@ export class TestCaseComponent {
     }
 
     return labels;
-    
   }
 
   chartSeries: ApexAxisChartSeries = [
@@ -90,24 +122,25 @@ export class TestCaseComponent {
     return dates.reverse();
   }
 
+  // Logs:
+  // { foo: 4, bar: 8, baz: 0 } after 4 seconds
+  // 'This is how it ends!' immediately after
+
   formatTableData(dataToFormat: any) {
     const series = dataToFormat["Time Series (Daily)"];
     console.log(1111111);
     console.log(series);
     console.log(1111111);
-    
+
     const displayedColumns = ["company"];
-    
-    const company = this.selectedCompanies.value[0]; 
-    
+
+    const company = this.selectedCompanies.value[0];
+
     console.log(2222222);
     console.log(company);
     console.log(2222222);
 
-
-    
-
-    const data = {company};
+    const data = { company };
 
     for (const key in series) {
       displayedColumns.push(key);
@@ -116,14 +149,10 @@ export class TestCaseComponent {
 
     const dataSource: any = [data];
 
-    
-
-
     this.displayedColumns = displayedColumns;
     this.displayedDateColumns = displayedColumns.slice(1);
     this.dataSource = dataSource;
   }
-  
 
   userSessionsSeries: ApexAxisChartSeries = [
     {
