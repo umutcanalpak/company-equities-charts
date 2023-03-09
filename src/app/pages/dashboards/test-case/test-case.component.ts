@@ -40,9 +40,9 @@ export class TestCaseComponent {
   );
 
   constructor(private testCaseService: TestCaseService) {
-    setTimeout(() => {
-      this.filter();
-    }, 3000);
+    // setTimeout(() => {
+    //   this.filter();
+    // }, 3000);
   }
 
   filter() {
@@ -58,10 +58,25 @@ export class TestCaseComponent {
         startMoment.add(1, "days");
       }
 
-      this.testCaseService.obs.next([]);
+      const labels = [];
+      for (const day of days) {
+        const time = moment(day).toDate().getTime();
+        console.log(11111);
+        console.log(time);
+        // console.log(+DateTime.local().toJSDate());
+        console.log(11111);
+
+        labels.push(time)
+      }
+
+      this.testCaseService.obs.next(labels);
 
       this.formatData(data);
     });
+  }
+
+  createChartLabels() {
+
   }
 
   createDateArray(length: number) {
@@ -93,9 +108,6 @@ export class TestCaseComponent {
 
     this.displayedColumns = columns;
     this.dataSource = dataSource;
-
-    console.log(this.dataSource);
-    console.log(series);
   }
 
   range = new FormGroup({
@@ -103,40 +115,7 @@ export class TestCaseComponent {
     end: new FormControl<Date | null>(null),
   });
 
-  tableColumns: TableColumn<Order>[] = [
-    {
-      label: "",
-      property: "status",
-      type: "badge",
-    },
-    {
-      label: "PRODUCT",
-      property: "name",
-      type: "text",
-    },
-    {
-      label: "$ PRICE",
-      property: "price",
-      type: "text",
-      cssClasses: ["font-medium"],
-    },
-    {
-      label: "DATE",
-      property: "timestamp",
-      type: "text",
-      cssClasses: ["text-secondary"],
-    },
-  ];
-  tableData = tableSalesData;
-
-  series: ApexAxisChartSeries = [
-    {
-      name: "Subscribers",
-      data: [28, 40, 36, 0, 52, 38, 60, 55, 67, 33, 89, 44],
-    },
-  ];
-
-  userSessionsSeriesasdasdasd: ApexAxisChartSeries = [
+  chartSeries: ApexAxisChartSeries = [
     {
       name: "Users",
       data: [10, 50, 26],
@@ -158,32 +137,4 @@ export class TestCaseComponent {
     },
   ];
 
-  salesSeries: ApexAxisChartSeries = [
-    {
-      name: "Sales",
-      data: [28, 40, 36, 0, 52, 38, 60, 55, 99, 54, 38, 87],
-    },
-  ];
-
-  pageViewsSeries: ApexAxisChartSeries = [
-    {
-      name: "Page Views",
-      data: [405, 800, 200, 600, 105, 788, 600, 204],
-    },
-  ];
-
-  uniqueUsersSeries: ApexAxisChartSeries = [
-    {
-      name: "Unique Users",
-      data: [356, 806, 600, 754, 432, 854, 555, 1004],
-    },
-  ];
-
-  uniqueUsersOptions = defaultChartOptions({
-    chart: {
-      type: "area",
-      height: 100,
-    },
-    colors: ["#ff9800"],
-  });
 }

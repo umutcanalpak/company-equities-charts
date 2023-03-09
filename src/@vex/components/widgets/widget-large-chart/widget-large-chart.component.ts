@@ -19,12 +19,10 @@ export class WidgetLargeChartComponent implements OnInit {
 
   ngOnInit() {
     this.testCaseService.obs.subscribe((res: any) => {
-      console.log(111);
-      console.log(this.options.labels);
-
       const param: any = this.defaultOptionsParam();
 
-      param.labels = createDateArray(5);
+      // param.labels = createDateArray(5);
+      param.labels = res;
 
       this.options = param;
     });
@@ -59,9 +57,7 @@ export class WidgetLargeChartComponent implements OnInit {
         },
       },
       colors: ["#008ffb", "#ff9800"],
-      // labels: createDateArray(12),
       labels: createDateArray(10),
-      // labels: this.labels,
       xaxis: {
         type: "datetime",
         labels: {
