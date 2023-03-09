@@ -1,14 +1,7 @@
 import { Component } from "@angular/core";
-import { defaultChartOptions } from "../../../../@vex/utils/default-chart-options";
-import {
-  Order,
-  tableSalesData,
-} from "../../../../static-data/table-sales-data";
-import { TableColumn } from "../../../../@vex/interfaces/table-column.interface";
 import { FormControl, FormGroup } from "@angular/forms";
 import { TestCaseService } from "./test-case.service";
-import { DateTime } from "luxon";
-import moment from "moment";
+import moment from "moment-timezone";
 import { forkJoin } from "rxjs";
 
 @Component({
@@ -23,7 +16,7 @@ export class TestCaseComponent {
   );
   readonly DATE_FORMAT = "YYYY-MM-DD";
   companyList: string[] = ["IBM", "AAPL", "MSFT", "AMZN", "GOOG"];
-  selectedCompanies = new FormControl(["IBM", "AAPL"]);
+  selectedCompanies = new FormControl([]);
   range = new FormGroup({
     start: new FormControl<Date | null>(null),
     end: new FormControl<Date | null>(null),
@@ -32,6 +25,7 @@ export class TestCaseComponent {
   displayedDateColumns: string[] = [];
   displayedColumns: string[] = [];
   loading = false;
+  chartSeries: ApexAxisChartSeries = [];
 
   constructor(private testCaseService: TestCaseService) {}
 
@@ -44,50 +38,24 @@ export class TestCaseComponent {
         this.testCaseService.getEquityDataByCompany(company);
     }
 
-    // forkJoin(forkJoinParam).subscribe(
-    //   (res) => {
-    //     const labels = this.createChartLabels();
-
-    //     this.formatTableData(res, labels);
-    //   },
-    //   (err) => console.error(err),
-    //   () => (this.loading = false)
-    // );
-
     const self = this;
+
     forkJoin(forkJoinParam).subscribe({
       next(value) {
-        const labels = self.createChartLabels();
-        self.formatTableData(value, labels);
+        const timeArray = self.createTimeArray();
+        self.formatTableData(value, timeArray);
+        self.formatChartData();
       },
       error(err) {
         console.error(err);
-        // self.loading = false;
       },
       complete() {
         self.loading = false;
       },
     });
-
-    // this.testCaseService.getEquityDataByCompany("").subscribe((data) => {
-    //   const labels = this.createChartLabels(data);
-
-    //   this.testCaseService.obs.next(labels);
-
-    //   this.formatTableData(data);
-    // });
   }
 
-  isFilterButtonDisabled() {
-    return (
-      this.loading ||
-      !this.selectedCompanies.value.length ||
-      !this.range.value.start ||
-      !this.range.value.end
-    );
-  }
-
-  createChartLabels() {
+  createTimeArray(): number[] {
     const { start, end } = this.range.value;
 
     let startMoment = moment(start);
@@ -99,32 +67,50 @@ export class TestCaseComponent {
       startMoment.add(1, "days");
     }
 
-    const labels = [];
+    const times = [];
     for (const day of days) {
       const time = moment(day).toDate().getTime();
-      labels.push(time);
+      times.push(time);
     }
 
-    return labels;
+    return times;
   }
 
-  chartSeries: ApexAxisChartSeries = [
-    {
-      name: "Users",
-      data: [10, 50, 26],
-    },
-    {
-      name: "Sessions",
-      data: [5, 21, 42],
-    },
-  ];
 
-  formatTableData(res: any, labels: string[]) {
+  formatChartData() {
+    const data: ApexAxisChartSeries = [];
+    const labels = [];
+
+    for (const row of this.dataSource) {
+      const values = [];
+
+      for (const key in row) {
+        if (key === "company") {
+          continue;
+        }
+
+        if (Object.prototype.hasOwnProperty.call(row, key)) {
+          labels.push(moment.tz(key, "Europe/London").toDate().getTime());
+          values.push(row[key]);
+        }
+      }
+
+      data.push({
+        name: row.company,
+        data: values,
+      });
+    }
+
+    this.chartSeries = data;
+    this.testCaseService.obs.next(labels);
+  }
+
+  formatTableData(res: any, timeArray: number[]) {
     let displayedColumnsChange = true;
     const displayedColumns = [];
     const dataSource = [];
 
-    const dates = labels.map((i) => moment(i).format(this.DATE_FORMAT));
+    const dates = timeArray.map((i) => moment(i).format(this.DATE_FORMAT));
 
     for (const parentKey in res) {
       if (Object.prototype.hasOwnProperty.call(res, parentKey)) {
@@ -153,5 +139,14 @@ export class TestCaseComponent {
     this.displayedDateColumns = [...displayedColumns];
     this.displayedColumns = ["company", ...this.displayedDateColumns];
     this.dataSource = dataSource;
+  }
+
+  isFilterButtonDisabled() {
+    return (
+      this.loading ||
+      !this.selectedCompanies.value.length ||
+      !this.range.value.start ||
+      !this.range.value.end
+    );
   }
 }

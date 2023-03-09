@@ -1,7 +1,6 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { ApexOptions } from "../../chart/chart.component";
 import { defaultChartOptions } from "../../../utils/default-chart-options";
-import { createDateArray } from "../../../utils/create-date-array";
 import { TestCaseService } from "src/app/pages/dashboards/test-case/test-case.service";
 
 @Component({
@@ -10,8 +9,6 @@ import { TestCaseService } from "src/app/pages/dashboards/test-case/test-case.se
   styleUrls: ["./widget-large-chart.component.scss"],
 })
 export class WidgetLargeChartComponent implements OnInit {
- 
-
   optionsParam: any = this.defaultOptionsParam();
   @Input() series: ApexNonAxisChartSeries | ApexAxisChartSeries = []
   @Input() options: ApexOptions = defaultChartOptions(this.optionsParam);
@@ -22,7 +19,6 @@ export class WidgetLargeChartComponent implements OnInit {
     this.testCaseService.obs.subscribe((res: any) => {
       const param: any = this.defaultOptionsParam();
 
-      // param.labels = createDateArray(5);
       param.labels = res;
 
       this.options = param;
@@ -57,8 +53,8 @@ export class WidgetLargeChartComponent implements OnInit {
           stops: [0, 90, 100],
         },
       },
-      colors: ["#008ffb", "#ff9800"],
-      labels: createDateArray(10),
+      colors: ["#008ffb", "#ff9800", "#D30A31", "#E7F905", "#5DD525"],
+      labels: [],
       xaxis: {
         type: "datetime",
         labels: {

@@ -32,6 +32,7 @@
     "highlight.js": "~11.5.1",
     "luxon": "^2.5.2",
     "moment": "^2.29.4",
+    "moment-timezone": "^0.5.41",
     "ngx-quicklink": "~0.2.7",
     "ngx-quill": "~17.0.0",
     "ngx-showdown": "^6.0.0",

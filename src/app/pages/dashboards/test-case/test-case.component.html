@@ -47,6 +47,11 @@
     </div>
   </div>
 
+  <vex-widget-large-chart
+    [series]="chartSeries"
+    class="sm:col-span-4"
+  ></vex-widget-large-chart>
+
   <div class="sm:col-span-4">
     <h2 class="text-center">Hisse Senedi Değerleri ve Tarihleri</h2>
     <div class="example-container mat-elevation-z8">
@@ -68,9 +73,4 @@
       </table>
     </div>
   </div>
-
-  <vex-widget-large-chart
-    [series]="chartSeries"
-    class="sm:col-span-4"
-  ></vex-widget-large-chart>
 </div>
