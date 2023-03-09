@@ -29,6 +29,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatTableModule } from '@angular/material/table';
+import {  MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [TestCaseComponent],
@@ -69,7 +70,8 @@ import { MatTableModule } from '@angular/material/table';
     MatSlideToggleModule,
     SecondaryToolbarModule,
     BreadcrumbsModule,
-    MatTableModule
+    MatTableModule,
+    MatProgressSpinnerModule
   ]
 })
 export class TestCaseModule {

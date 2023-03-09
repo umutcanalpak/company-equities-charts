@@ -1,7 +1,6 @@
 <div
   class="container p-gutter grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4"
 >
-
   <div class="sm:col-span-1">
     <mat-form-field appearance="fill">
       <mat-label>Hisse</mat-label>
@@ -11,8 +10,6 @@
         </mat-option>
       </mat-select>
     </mat-form-field>
-
-    <p>stocks: {{ selectedCompanies.value | json }}</p>
   </div>
 
   <div class="sm:col-span-1">
@@ -31,10 +28,6 @@
       <mat-date-range-picker #picker></mat-date-range-picker>
       <mat-hint>Tarih seçiniz</mat-hint>
     </mat-form-field>
-
-    <p>Selected range: {{ range.value | json }}</p>
-
-
   </div>
 
   <div class="sm:col-span-2">
@@ -43,29 +36,21 @@
         color="primary"
         mat-raised-button
         type="button"
-        [disabled]="!selectedCompanies.value.length"
+        [disabled]="isFilterButtonDisabled()"
         (click)="filter()"
       >
         Göster
+        <mat-icon *ngIf="loading">
+          <mat-spinner color="accent" diameter="20"> </mat-spinner
+        ></mat-icon>
       </button>
     </div>
   </div>
 
-
   <div class="sm:col-span-4">
+    <h2 class="text-center">Hisse Senedi Değerleri ve Tarihleri</h2>
     <div class="example-container mat-elevation-z8">
       <table mat-table [dataSource]="dataSource">
-        <!-- <ng-container matColumnDef="name" sticky>
-          <th mat-header-cell *matHeaderCellDef>Name</th>
-          <td mat-cell *matCellDef="let element">{{ element.name }}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="position">
-          <th mat-header-cell *matHeaderCellDef>No.</th>
-          <td mat-cell *matCellDef="let element">{{ element.position }}</td>
-        </ng-container> -->
-
-
         <ng-container matColumnDef="company" sticky>
           <th mat-header-cell *matHeaderCellDef>Company</th>
           <td mat-cell *matCellDef="let element">{{ element.company }}</td>
@@ -82,13 +67,10 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
       </table>
     </div>
-
   </div>
 
   <vex-widget-large-chart
-  [series]="chartSeries"
-  class="sm:col-span-4"
-></vex-widget-large-chart>
-
-
+    [series]="chartSeries"
+    class="sm:col-span-4"
+  ></vex-widget-large-chart>
 </div>
