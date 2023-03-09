@@ -1,22 +1,18 @@
 <div
   class="container p-gutter grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4"
 >
-  <vex-widget-large-chart
-    [series]="chartSeries"
-    class="sm:col-span-4"
-  ></vex-widget-large-chart>
 
   <div class="sm:col-span-1">
     <mat-form-field appearance="fill">
       <mat-label>Hisse</mat-label>
-      <mat-select [formControl]="stocks" multiple>
-        <mat-option *ngFor="let equity of stockList" [value]="equity">
-          {{ equity }}
+      <mat-select [formControl]="selectedCompanies" multiple>
+        <mat-option *ngFor="let company of companyList" [value]="company">
+          {{ company }}
         </mat-option>
       </mat-select>
     </mat-form-field>
 
-    <p>stocks: {{ stocks.value | json }}</p>
+    <p>stocks: {{ selectedCompanies.value | json }}</p>
   </div>
 
   <div class="sm:col-span-1">
@@ -47,7 +43,7 @@
         color="primary"
         mat-raised-button
         type="button"
-        [disabled]="!stocks.value.length"
+        [disabled]="!selectedCompanies.value.length"
         (click)="filter()"
       >
         Göster
@@ -69,7 +65,13 @@
           <td mat-cell *matCellDef="let element">{{ element.position }}</td>
         </ng-container> -->
 
-        <ng-container *ngFor="let item of displayedColumns">
+
+        <ng-container matColumnDef="company" sticky>
+          <th mat-header-cell *matHeaderCellDef>Company</th>
+          <td mat-cell *matCellDef="let element">{{ element.company }}</td>
+        </ng-container>
+
+        <ng-container *ngFor="let item of displayedDateColumns">
           <ng-container [matColumnDef]="item">
             <th mat-header-cell *matHeaderCellDef>{{ item }}</th>
             <td mat-cell *matCellDef="let element">{{ element[item] }}</td>
@@ -82,5 +84,11 @@
     </div>
 
   </div>
+
+  <vex-widget-large-chart
+  [series]="chartSeries"
+  class="sm:col-span-4"
+></vex-widget-large-chart>
+
 
 </div>

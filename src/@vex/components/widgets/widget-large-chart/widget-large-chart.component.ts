@@ -10,9 +10,10 @@ import { TestCaseService } from "src/app/pages/dashboards/test-case/test-case.se
   styleUrls: ["./widget-large-chart.component.scss"],
 })
 export class WidgetLargeChartComponent implements OnInit {
-  optionsParam: any = this.defaultOptionsParam();
+ 
 
-  @Input() series: ApexNonAxisChartSeries | ApexAxisChartSeries;
+  optionsParam: any = this.defaultOptionsParam();
+  @Input() series: ApexNonAxisChartSeries | ApexAxisChartSeries = []
   @Input() options: ApexOptions = defaultChartOptions(this.optionsParam);
 
   constructor(private testCaseService: TestCaseService) {}
