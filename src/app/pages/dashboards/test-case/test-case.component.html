@@ -1,13 +1,18 @@
 <div
   class="container p-gutter grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4"
 >
+  <vex-widget-large-chart
+    [series]="userSessionsSeriesasdasdasd"
+    class="sm:col-span-2"
+  ></vex-widget-large-chart>
+
   <div class="sm:col-span-1">
     <mat-form-field appearance="fill">
       <mat-label>Hisse</mat-label>
       <mat-select [formControl]="stocks" multiple>
-        <mat-option *ngFor="let equity of stockList" [value]="equity">{{
-          equity
-        }}</mat-option>
+        <mat-option *ngFor="let equity of stockList" [value]="equity">
+          {{ equity }}
+        </mat-option>
       </mat-select>
     </mat-form-field>
 
@@ -75,7 +80,7 @@
 
         <ng-container *ngFor="let item of displayedColumns">
           <ng-container [matColumnDef]="item">
-            <th mat-header-cell *matHeaderCellDef>{{item}}</th>
+            <th mat-header-cell *matHeaderCellDef>{{ item }}</th>
             <td mat-cell *matCellDef="let element">{{ element[item] }}</td>
           </ng-container>
         </ng-container>
@@ -89,28 +94,6 @@
         Use of this source code is governed by an MIT-style license that
         can be found in the LICENSE file at http://angular.io/license -->
   </div>
-
-  <vex-widget-quick-line-chart
-    icon="mat:pageview"
-    [series]="pageViewsSeries"
-    iconClass="text-primary bg-primary/10"
-    label="Page Views"
-    value="92.4k"
-  ></vex-widget-quick-line-chart>
-
-  <vex-widget-quick-line-chart
-    icon="mat:group"
-    [options]="uniqueUsersOptions"
-    [series]="uniqueUsersSeries"
-    iconClass="text-orange bg-orange-light"
-    label="Unique Users"
-    value="67.2k"
-  ></vex-widget-quick-line-chart>
-
-  <vex-widget-large-chart
-    [series]="userSessionsSeries"
-    class="sm:col-span-2"
-  ></vex-widget-large-chart>
 
   <vex-widget-table
     [columns]="tableColumns"

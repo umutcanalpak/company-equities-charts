@@ -7,6 +7,7 @@ import {
 import { TableColumn } from "../../../../@vex/interfaces/table-column.interface";
 import { FormControl, FormGroup } from "@angular/forms";
 import { TestCaseService } from "./test-case.service";
+import { DateTime } from "luxon";
 
 @Component({
   selector: "app-test-case",
@@ -47,7 +48,16 @@ export class TestCaseComponent {
     this.testCaseService.getEquityData().subscribe((data) => {
       this.formatData(data);
     });
+
+    // todo
+    const asd = this.createDateArray(3);
+
+
+
+    this.testCaseService.obs.next(asd);
+
   }
+
 
   formatData(dataToFormat: any) {
     const series = dataToFormat["Time Series (Daily)"];
@@ -110,6 +120,27 @@ export class TestCaseComponent {
       data: [28, 40, 36, 0, 52, 38, 60, 55, 67, 33, 89, 44],
     },
   ];
+
+  userSessionsSeriesasdasdasd: ApexAxisChartSeries = [
+    {
+      name: "Users",
+      data: [10, 50, 26],
+    },
+    {
+      name: "Sessions",
+      data: [5, 21, 42],
+    },
+  ];
+
+  createDateArray(length: number) {
+    const dates: number[] = [];
+
+    for (let i = 0; i < length; i++) {
+      dates.push(+DateTime.local().minus({ day: i }).toJSDate());
+    }
+
+    return dates.reverse();
+  }
 
   userSessionsSeries: ApexAxisChartSeries = [
     {
