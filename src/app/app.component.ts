@@ -125,7 +125,7 @@ export class AppComponent {
         children: [
           {
             type: 'link',
-            label: 'Analytics',
+            label: 'Hisse Senedi Değerleri',
             route: '/',
             icon: 'mat:insights',
             routerLinkActiveOptions: { exact: true }

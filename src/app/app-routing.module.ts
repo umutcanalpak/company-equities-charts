@@ -15,7 +15,14 @@ const routes: VexRoutes = [
           import(
             "./pages/dashboards/dashboard-analytics/dashboard-analytics.module"
           ).then((m) => m.DashboardAnalyticsModule),
-      }
+      },
+      {
+        path: "**",
+        loadChildren: () =>
+          import("./pages/pages/errors/error-404/error-404.module").then(
+            (m) => m.Error404Module
+          ),
+      },
     ],
   },
 ];
